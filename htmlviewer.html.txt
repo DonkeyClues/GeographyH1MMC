@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ক্লাস রুটিন – অনার্স ১ম বর্ষ (ভূগোল বিভাগ)</title><style>body{font-family:'Noto Sans Bengali',sans-serif;background:linear-gradient(120deg,#004d26,#0b3d91);color:#fff;text-align:center;padding:10px}h1{color:#fdd835;font-size:1.8em;margin-bottom:10px}table{width:100%;border-collapse:collapse;margin-top:10px;box-shadow:0 0 15px rgba(0,0,0,.4)}td,th{padding:8px;border:1px solid rgba(255,255,255,.3);font-size:.9em;position:relative;min-width:90px}th{background:rgba(0,150,136,.7);font-size:1em}td{background:rgba(255,255,255,.05)}tr:nth-child(even) td{background:rgba(255,255,255,.08)}.countdown{font-weight:700;color:#0f9;font-size:.8em;display:block;margin-top:4px}.clock{font-size:1.1em;margin-top:15px;font-weight:700;color:#ffcc80}.quote{margin-top:15px;font-style:italic;color:#fff59d;font-size:.9em;background:rgba(0,0,0,.3);padding:5px 10px;border-radius:8px}.globe{position:absolute;top:5px;right:5px;animation:spin 3s linear infinite}@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}@media (max-width:768px){td,th{font-size:.75em;padding:6px;min-width:60px}h1{font-size:1.4em}}</style></head><body><h1>ক্লাস রুটিন – অনার্স ১ম বর্ষ (ভূগোল বিভাগ)</h1><table><tr><th>দিন/সময়</th><th>৯:০০-৯:৫০</th><th>৯:৫০-১০:৪০</th><th>১০:৪০-১১:৩০</th><th>১১:৩০-১২:২০</th><th>১২:২০-১:১০</th></tr><tr><th>রবিবার</th><td data-day="0" data-time="09:00">ভু: (209)<div class="countdown"></div></td><td data-day="0" data-time="09:50">ইকো (1305)<div class="countdown"></div></td><td data-day="0" data-time="10:40">ভু: (201)<div class="countdown"></div></td><td data-day="0" data-time="11:30">xxxxxx<div class="countdown"></div></td><td data-day="0" data-time="12:20">xxxxxx<div class="countdown"></div></td></tr><tr><th>সোমবার</th><td data-day="1" data-time="09:00">ভু: (209)<div class="countdown"></div></td><td data-day="1" data-time="09:50">ভু: (209)<div class="countdown"></div></td><td data-day="1" data-time="10:40">সোসিও (1201)<div class="countdown"></div></td><td data-day="1" data-time="11:30">xxxxxx<div class="countdown"></div></td><td data-day="1" data-time="12:20">xxxxxx<div class="countdown"></div></td></tr><tr><th>মঙ্গলবার</th><td data-day="2" data-time="09:00">xxxxxx<div class="countdown"></div></td><td data-day="2" data-time="09:50">xxxxxx<div class="countdown"></div></td><td data-day="2" data-time="10:40">সোসিও (1201)<div class="countdown"></div></td><td data-day="2" data-time="11:30">ভু: (201)<div class="countdown"></div></td><td data-day="2" data-time="12:20">ইকো (1305)<div class="countdown"></div></td></tr><tr><th>বুধবার</th><td data-day="3" data-time="09:00">প্র্যাক: (209)<div class="countdown"></div></td><td data-day="3" data-time="09:50">প্র্যাক: (209)<div class="countdown"></div></td><td data-day="3" data-time="10:40">HEB (1213)<div class="countdown"></div></td><td data-day="3" data-time="11:30">POL (1213)<div class="countdown"></div></td><td data-day="3" data-time="12:20">xxxxx<div class="countdown"></div></td></tr><tr><th>বৃহস্পতিবার</th><td data-day="4" data-time="09:00">xxxxxx<div class="countdown"></div></td><td data-day="4" data-time="09:50">ভু: (201)<div class="countdown"></div></td><td data-day="4" data-time="10:40">HEB (1213)<div class="countdown"></div></td><td data-day="4" data-time="11:30">POL (1213)<div class="countdown"></div></td><td data-day="4" data-time="12:20">ভু: (209)<div class="countdown"></div></td></tr></table><div class="clock" id="liveClock"></div><div class="quote">"সারা পৃথিবী একটি বই এর মত, যারা এই পৃথিবীর ভিন্ন ভিন্ন স্থানে ভ্রমণ করে না তারা শুধুমাত্র এর একটি পৃষ্ঠাই পড়ে।"</div><script>function updateCountdowns() {
+    const now = new Date();
+    const currentDay = now.getDay();
+    const currentTime = now.getHours() * 60 + now.getMinutes();
+
+    document.querySelectorAll('td').forEach(cell => {
+        const day = parseInt(cell.getAttribute('data-day'));
+        const timeAttr = cell.getAttribute('data-time');
+        if (!timeAttr) return;
+
+        const [hours, minutes] = timeAttr.split(':').map(Number);
+        const startMinutes = hours * 60 + minutes;
+        const endMinutes = startMinutes + 50;
+
+        let target = new Date();
+        target.setHours(hours, minutes, 0, 0);
+        target.setDate(target.getDate() + ((day - currentDay + 7) % 7));
+        if (target < now) target.setDate(target.getDate() + 7);
+
+        const diff = target - now;
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const cdElem = cell.querySelector('.countdown');
+        cdElem.textContent = `${d}দিন ${h}ঘ ${m}মি ${s}সে`;
+
+        cell.querySelector('.globe')?.remove();
+        if (day === currentDay && currentTime >= startMinutes && currentTime < endMinutes) {
+            const globe = document.createElement('span');
+            globe.textContent = '🌍';
+            globe.classList.add('globe');
+            cell.appendChild(globe);
+        }
+    });
+}
+
+function updateClock() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('bn-BD');
+    document.getElementById('liveClock').textContent = `বর্তমান সময়: ${timeString}`;
+}
+
+setInterval(() => {
+    updateCountdowns();
+    updateClock();
+}, 1000);
+
+updateCountdowns();
+updateClock();</script></body></html>
